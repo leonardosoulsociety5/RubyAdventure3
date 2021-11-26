@@ -13,8 +13,11 @@ public class RubyController : MonoBehaviour
     public GameObject Winscreen;
     public int currentrobotsfixt =0;
     public int robotsfixuntillevel =4;
+    public Text cogstext;
 
     public GameObject gainHealtheffect;
+
+    public int cogs = 4;
 
     public GameObject loseHealtheffect;
     public AudioClip collectedClip;
@@ -42,11 +45,17 @@ public class RubyController : MonoBehaviour
     public AudioClip losesound;
     public AudioClip winsound;
     public AudioSource BGmusic;
+    public GameObject dialogbox;
 
     public Text scoreText;
 
     void Start()
     {
+        uptadecogstext();
+        if (SceneManager.GetActiveScene().name =="Level 22")
+        {
+            dialogbox.SetActive(false);
+        }
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
@@ -84,7 +93,13 @@ public class RubyController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Launch();
+            
+            if (cogs > 0)
+            {
+              Launch();
+              cogs --;
+              uptadecogstext();
+            }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -115,6 +130,11 @@ public class RubyController : MonoBehaviour
         if(Input.GetKey(KeyCode.Escape)){
             Application.Quit();
         }
+    }
+    public void uptadecogstext
+    ()
+    {
+        cogstext.text="cogs: " + cogs.ToString();   
     }
 
     void FixedUpdate()
